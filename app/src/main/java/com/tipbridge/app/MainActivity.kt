@@ -155,8 +155,8 @@ class MainActivity : Activity() {
 
         // buttons
         val bar = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        startBtn = btn("START", GREEN) { onStart() }
-        stopBtn = btn("STOP", Color.parseColor("#555555")) { onStop() }
+        startBtn = btn("START", GREEN) { startPressed() }
+        stopBtn = btn("STOP", Color.parseColor("#555555")) { stopPressed() }
         bar.addView(startBtn, LinearLayout.LayoutParams(0, dp(64), 1f).apply { setMargins(0, 0, dp(6), 0) })
         bar.addView(stopBtn, LinearLayout.LayoutParams(0, dp(64), 1f))
         val barParams = LinearLayout.LayoutParams(MATCH, WRAP).apply { setMargins(0, dp(20), 0, 0) }
@@ -284,7 +284,7 @@ class MainActivity : Activity() {
         return need.toTypedArray()
     }
 
-    private fun onStart() {
+    private fun startPressed() {
         val cfg = collectConfig() ?: return
         cfg.save(this)
         val need = neededPermissions()
@@ -318,7 +318,7 @@ class MainActivity : Activity() {
         }
     }
 
-    private fun onStop() {
+    private fun stopPressed() {
         stopService(Intent(this, TipService::class.java))
     }
 
