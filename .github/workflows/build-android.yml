@@ -7,6 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    permissions:
+      contents: write   # lets the build publish the app as a Release
     steps:
       - uses: actions/checkout@v4
 
@@ -33,3 +35,11 @@ jobs:
         with:
           name: TipBridge-Android
           path: TipBridge.apk
+
+      - name: Publish a Release with a direct download link
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "android-build-${{ github.run_number }}" TipBridge.apk \
+            --title "Tip Bridge for Android (build ${{ github.run_number }})" \
+            --notes "Open this page on your Android phone and tap TipBridge.apk to download it."
