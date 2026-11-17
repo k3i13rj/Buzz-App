@@ -15,6 +15,20 @@ android {
         versionName = "0.1"
     }
 
+    // On GitHub, sign with the fixed key from the DEBUG_KEYSTORE_B64 secret
+    // (the workflow saves it and sets TIPBRIDGE_KEYSTORE), so every build has
+    // the same signature and updates install over older versions.
+    signingConfigs {
+        getByName("debug") {
+            System.getenv("TIPBRIDGE_KEYSTORE")?.let {
+                storeFile = file(it)
+                storePassword = "android"
+                keyAlias = "androiddebugkey"
+                keyPassword = "android"
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
